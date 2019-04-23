@@ -49,19 +49,18 @@ func ParseConfigFile(path string) (*Config, error) {
 
 	// convert strings to time.Durations
 	err = durations([]td{
-		td{"gc_interval", &c.Client.GCInterval, &c.Client.GCIntervalHCL},
-		td{"acl.token_ttl", &c.ACL.TokenTTL, &c.ACL.TokenTTLHCL},
-		td{"acl.policy_ttl", &c.ACL.PolicyTTL, &c.ACL.PolicyTTLHCL},
-		td{"client.server_join.retry_interval", &c.Client.ServerJoin.RetryInterval, &c.Client.ServerJoin.RetryIntervalHCL},
-		td{"server.heartbeat_grace", &c.Server.HeartbeatGrace, &c.Server.HeartbeatGraceHCL},
-		td{"server.min_heartbeat_ttl", &c.Server.MinHeartbeatTTL, &c.Server.MinHeartbeatTTLHCL},
-		td{"server.retry_interval", &c.Server.RetryInterval, &c.Server.RetryIntervalHCL},
-		td{"server.server_join.retry_interval", &c.Server.ServerJoin.RetryInterval, &c.Server.ServerJoin.RetryIntervalHCL},
-		td{"consul.timeout", &c.Consul.Timeout, &c.Consul.TimeoutHCL},
-
-		td{"autopilot.server_stabilization_time", &c.Autopilot.ServerStabilizationTime, &c.Autopilot.ServerStabilizationTimeHCL},
-		td{"autopilot.last_contact_threshold", &c.Autopilot.LastContactThreshold, &c.Autopilot.LastContactThresholdHCL},
-		td{"telemetry.collection_interval", &c.Telemetry.collectionInterval, &c.Telemetry.CollectionInterval},
+		{"gc_interval", &c.Client.GCInterval, &c.Client.GCIntervalHCL},
+		{"acl.token_ttl", &c.ACL.TokenTTL, &c.ACL.TokenTTLHCL},
+		{"acl.policy_ttl", &c.ACL.PolicyTTL, &c.ACL.PolicyTTLHCL},
+		{"client.server_join.retry_interval", &c.Client.ServerJoin.RetryInterval, &c.Client.ServerJoin.RetryIntervalHCL},
+		{"server.heartbeat_grace", &c.Server.HeartbeatGrace, &c.Server.HeartbeatGraceHCL},
+		{"server.min_heartbeat_ttl", &c.Server.MinHeartbeatTTL, &c.Server.MinHeartbeatTTLHCL},
+		{"server.retry_interval", &c.Server.RetryInterval, &c.Server.RetryIntervalHCL},
+		{"server.server_join.retry_interval", &c.Server.ServerJoin.RetryInterval, &c.Server.ServerJoin.RetryIntervalHCL},
+		{"consul.timeout", &c.Consul.Timeout, &c.Consul.TimeoutHCL},
+		{"autopilot.server_stabilization_time", &c.Autopilot.ServerStabilizationTime, &c.Autopilot.ServerStabilizationTimeHCL},
+		{"autopilot.last_contact_threshold", &c.Autopilot.LastContactThreshold, &c.Autopilot.LastContactThresholdHCL},
+		{"telemetry.collection_interval", &c.Telemetry.collectionInterval, &c.Telemetry.CollectionInterval},
 	})
 	if err != nil {
 		return nil, err
