@@ -207,15 +207,15 @@ func execTask(t *testing.T, driver *DriverHarness, taskID string, cmd string, tt
 
 	isRaw := false
 	exitCode := -2
-	if raw, ok := driver.impl.(drivers.ExecTaskStreamingRaw); ok {
+	if raw, ok := driver.impl.(drivers.ExecTaskStreamingRawDriver); ok {
 		isRaw = true
 		err := raw.ExecTaskStreamingRaw(ctx, taskID,
 			command, tty, stream)
 		require.NoError(t, err)
-	} else {
+	} else if d, ok := driver.impl.(drivers.ExecTaskStreamingDriver); ok {
 		execOpts, errCh := drivers.StreamToExecOptions(ctx, command, tty, stream)
 
-		r, err := driver.impl.ExecTaskStreaming(ctx, taskID, execOpts)
+		r, err := d.ExecTaskStreaming(ctx, taskID, execOpts)
 		require.NoError(t, err)
 
 		select {
@@ -226,6 +226,8 @@ func execTask(t *testing.T, driver *DriverHarness, taskID string, cmd string, tt
 		}
 
 		exitCode = r.ExitCode
+	} else {
+		require.Fail(t, "driver does not support exec")
 	}
 
 	result := stream.currentResult()
