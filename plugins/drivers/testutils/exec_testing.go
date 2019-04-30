@@ -194,6 +194,13 @@ func TestExecFSIsolation(t *testing.T, driver *DriverHarness, taskID string) {
 			false, "")
 		require.Zero(t, r.exitCode)
 		require.Equal(t, text, strings.TrimSpace(r.stdout))
+
+		// we always run in a cgroup - testing freezer
+		r = execTask(t, driver, taskID,
+			fmt.Sprintf("cat /proc/self/cgroup"),
+			false, "")
+		require.Zero(t, r.exitCode)
+		require.Regexp(t, "freezer:/..*$", r.stdout)
 	})
 }
 
